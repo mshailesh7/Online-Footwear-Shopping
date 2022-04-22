@@ -37,7 +37,7 @@
                 <th>Quantity</th>
                 <th>Subtotal</th>
             </tr>
-            <tr>
+            <tr class="item">
                 <td>
                     <div class="cart-info">
                         <img src="images/Product 1.png">
@@ -49,10 +49,10 @@
                     </div>
                 </div>        
                 </td>
-                <td><input type="number" value="1"></td>
-                <td>₹ 16,995</td>
+                <td><input class="qty" onchange="qtyChanged()" type="number" value="1"></td>
+                <td class="price">₹ 16,995</td>
             </tr>
-            <tr>
+            <tr class="item">
                 <td>
                     <div class="cart-info">
                         <img src="images/Product 2.png">
@@ -64,10 +64,10 @@
                     </div>
                 </div>        
                 </td>
-                <td><input type="number" value="1"></td>
-                <td>₹ 16,595</td>
+                <td><input class="qty" onchange="qtyChanged()"  type="number" value="1"></td>
+                <td class="price">₹ 16,595</td>
             </tr>
-            <tr>
+            <tr class="item">
                 <td>
                     <div class="cart-info">
                         <img src="images/Product 3.png">
@@ -79,10 +79,10 @@
                     </div>
                 </div>        
                 </td>
-                <td><input type="number" value="1"></td>
-                <td>₹ 8,990</td>
+                <td><input class="qty" onchange="qtyChanged()"  type="number" value="1"></td>
+                <td class="price">₹ 8,990</td>
             </tr>
-            <tr>
+            <tr class="item">
                 <td>
                     <div class="cart-info">
                         <img src="images/Product 4.png">
@@ -94,8 +94,8 @@
                     </div>
                 </div>        
                 </td>
-                <td><input type="number" value="1"></td>
-                <td>₹ 5,495</td>
+                <td><input class="qty"  onchange="qtyChanged()" type="number" value="1"></td>
+                <td class="price">₹ 5,495</td>
             </tr>
         </table>
 
@@ -104,15 +104,15 @@
             <table>
                 <tr>
                     <td>Subtotal</td>
-                    <td>₹ 25000</td>
+                    <td id="subtotal-price">₹ 25000</td>
                 </tr>
                 <tr>
                     <td>Tax</td>
-                    <td>₹ 1250</td>
+                    <td id="tax-price">₹ 1250</td>
                 </tr>
                 <tr>
                     <td>Total</td>
-                    <td>₹ 26250</td>
+                    <td id="total-price">₹ 26250</td>
                 </tr>
             </table>
            
@@ -165,5 +165,29 @@
     </div>
     </div>
 </div>
+<script>
+function qtyChanged(){
+    var items = document.querySelectorAll(".item");
+var total = 0;
+    items.forEach((e)=>{
+        var price = e.querySelector(".price").textContent;
+        price = price.replace("₹","");
+        price = price.replace(",","");
+        price = parseInt(price);
+        var qty = e.querySelector(".qty").value;
+        total+=price*qty;
+    })
+    
+    document.querySelector("#subtotal-price").textContent=`₹${numberWithCommas(total)}`;
+    var tax = (total*18)/100;
+    document.querySelector("#tax-price").textContent = `₹${numberWithCommas(tax)}`
+    document.querySelector("#total-price").textContent = `₹${numberWithCommas(tax+total)}`
+    
+
+}
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+    </script>
 </body>
 </html>
